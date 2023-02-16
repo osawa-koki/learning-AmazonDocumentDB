@@ -6,7 +6,7 @@ variable "allowed_ip_address" {
 
 # プロバイダーを設定
 provider "aws" {
-  region = "japan-east-1"
+  region = "ap-northeast-1"
 }
 
 # VPCを定義
@@ -29,7 +29,7 @@ resource "aws_security_group" "example" {
     from_port   = 27017
     to_port     = 27017
     protocol    = "tcp"
-    cidr_blocks = [aws_subnet.example.cidr_block, var.allowed_ip_address]
+    cidr_blocks = [aws_subnet.example.cidr_block, "${var.allowed_ip_address}/32"] # `IPAddr/32`でそのIPアドレスのみを許可
   }
 }
 
