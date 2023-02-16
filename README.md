@@ -17,3 +17,9 @@ Terraformを使用してAWS上にリソースを構築する。
 terraform init
 terraform apply
 ```
+
+## イロイロ情報共有
+
+### データベースクライアント
+
+DynamoDB用のNoSQL Workbenchは[こちら](https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/workbench.html)からダウンロード可能。  
