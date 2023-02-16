@@ -1,3 +1,4 @@
+
 variable "allowed_ip_address" {
   type = string
   description = "インターネットからのアクセスを許可するIPアドレス"
