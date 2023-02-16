@@ -1,4 +1,3 @@
-
 variable "allowed_ip_address" {
   type = string
   description = "インターネットからのアクセスを許可するIPアドレス"
@@ -14,16 +13,24 @@ resource "aws_vpc" "example" {
   cidr_block = "10.0.0.0/16"
 }
 
-# サブネットを定義
+# サブネット1を定義
 resource "aws_subnet" "example" {
   vpc_id     = aws_vpc.example.id
   cidr_block = "10.0.1.0/24"
+  availability_zone = "ap-northeast-1a"
+}
+
+# サブネット2を定義
+resource "aws_subnet" "example2" {
+  vpc_id     = aws_vpc.example.id
+  cidr_block = "10.0.2.0/24"
+  availability_zone = "ap-northeast-1c"
 }
 
 # DocumentDBサブネットグループを定義
 resource "aws_docdb_subnet_group" "example" {
   name       = "example"
-  subnet_ids = [aws_subnet.example.id]
+  subnet_ids = [aws_subnet.example.id, aws_subnet.example2.id] # 2つ以上の異なるAZにあるサブネットIDを指定する
 }
 
 # セキュリティグループを定義
@@ -45,8 +52,8 @@ resource "aws_docdb_cluster" "example" {
   engine               = "docdb"
   master_username      = "admin"
   master_password      = "example"
-  # preferred_backup_window = "07:00-09:00"
-  # skip_final_snapshot = true
+  preferred_backup_window = "07:00-09:00"
+  skip_final_snapshot = true
   vpc_security_group_ids = [aws_security_group.example.id]
   db_subnet_group_name = aws_docdb_subnet_group.example.name # 作成したDBサブネットグループの名前を指定
 }
