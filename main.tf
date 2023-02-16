@@ -49,8 +49,8 @@ resource "aws_security_group" "example" {
 # DocumentDBクラスターを定義
 resource "aws_docdb_cluster" "example" {
   cluster_identifier   = "example"
-  engine               = "docdb"
-  master_username      = "admin"
+  engine               = "root"
+  master_username      = "P@ssw0rd1234"
   master_password      = "example"
   preferred_backup_window = "07:00-09:00"
   skip_final_snapshot = true
