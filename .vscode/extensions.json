@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "4ops.terraform",
+    "hashicorp.terraform",
+    "amazonwebservices.aws-toolkit-vscode"
+  ]
+}
