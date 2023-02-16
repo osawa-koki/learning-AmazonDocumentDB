@@ -20,6 +20,12 @@ resource "aws_subnet" "example" {
   cidr_block = "10.0.1.0/24"
 }
 
+# DocumentDBサブネットグループを定義
+resource "aws_docdb_subnet_group" "example" {
+  name       = "example"
+  subnet_ids = [aws_subnet.example.id]
+}
+
 # セキュリティグループを定義
 resource "aws_security_group" "example" {
   name_prefix = "example"
@@ -39,14 +45,8 @@ resource "aws_docdb_cluster" "example" {
   engine               = "docdb"
   master_username      = "admin"
   master_password      = "example"
-  preferred_backup_window = "07:00-09:00"
-  skip_final_snapshot = true
+  # preferred_backup_window = "07:00-09:00"
+  # skip_final_snapshot = true
   vpc_security_group_ids = [aws_security_group.example.id]
-  db_subnet_group_name = "example"
-}
-
-# DocumentDBサブネットグループを定義
-resource "aws_docdb_subnet_group" "example" {
-  name       = "example"
-  subnet_ids = [aws_subnet.example.id]
+  db_subnet_group_name = aws_docdb_subnet_group.example.name # 作成したDBサブネットグループの名前を指定
 }
