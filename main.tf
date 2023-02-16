@@ -4,6 +4,16 @@ variable "allowed_ip_address" {
   description = "インターネットからのアクセスを許可するIPアドレス"
 }
 
+variable "username" {
+  type = string
+  description = "データベースのユーザ名"
+}
+
+variable "password" {
+  type = string
+  description = "データベースのパスワード"
+}
+
 # プロバイダーを設定
 provider "aws" {
   region = "ap-northeast-1"
@@ -51,8 +61,8 @@ resource "aws_security_group" "example" {
 resource "aws_docdb_cluster" "example" {
   cluster_identifier   = "example"
   engine               = "docdb"
-  master_username      = "root_user"
-  master_password      = "Passw0rd1234"
+  master_username      = var.username
+  master_password      = var.password
   preferred_backup_window = "07:00-09:00"
   skip_final_snapshot = true
   vpc_security_group_ids = [aws_security_group.example.id]
