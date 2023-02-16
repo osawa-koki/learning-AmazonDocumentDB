@@ -35,7 +35,7 @@ resource "aws_security_group" "example" {
 
 # DocumentDBクラスターを定義
 resource "aws_docdb_cluster" "example" {
-  identifier           = "example"
+  cluster_identifier   = "example"
   engine               = "docdb"
   master_username      = "admin"
   master_password      = "example"
