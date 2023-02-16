@@ -8,6 +8,5 @@ Terraformを使用してAWS上にリソースを構築する。
 
 ```shell
 terraform init
-terraform plan
 terraform apply
 ```
