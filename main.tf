@@ -30,6 +30,11 @@ resource "aws_vpc" "example" {
   cidr_block = "10.0.0.0/16"
 }
 
+# インターネットゲートウェイを定義
+resource "aws_internet_gateway" "example" {
+  vpc_id = aws_vpc.example.id
+}
+
 # サブネット1を定義
 resource "aws_subnet" "example1" {
   vpc_id     = aws_vpc.example.id
@@ -46,13 +51,13 @@ resource "aws_subnet" "example2" {
 
 # DocumentDBサブネットグループを定義
 resource "aws_docdb_subnet_group" "example" {
-  name       = "example"
+  name       = "${var.project_name}-subnet-group-docdb"
   subnet_ids = [aws_subnet.example1.id, aws_subnet.example2.id] # 2つ以上の異なるAZにあるサブネットIDを指定する
 }
 
 # セキュリティグループを定義
 resource "aws_security_group" "example" {
-  name_prefix = "example"
+  name_prefix = "${var.project_name}-security-group"
   vpc_id      = aws_vpc.example.id
 
   ingress {
@@ -61,11 +66,17 @@ resource "aws_security_group" "example" {
     protocol    = "tcp"
     cidr_blocks = [aws_subnet.example1.cidr_block, "${var.allowed_ip_address}/32"] # `IPAddr/32`でそのIPアドレスのみを許可
   }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 # DocumentDBクラスターを定義
 resource "aws_docdb_cluster" "example" {
-  cluster_identifier   = "example"
+  cluster_identifier   = "${replace(var.project_name, "_", "-")}-docdb"
   engine               = "docdb"
   master_username      = var.username
   master_password      = var.password
@@ -77,5 +88,5 @@ resource "aws_docdb_cluster" "example" {
 
 resource "local_file" "connection_string" {
   content  = "mongodb://${var.username}:${var.password}@${aws_docdb_cluster.example.endpoint}:27017/?ssl=true"
-  filename = "${path.module}/connection_string.txt"
+  filename = "${path.module}/connection_string.secret"
 }
