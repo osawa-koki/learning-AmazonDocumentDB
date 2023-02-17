@@ -76,14 +76,22 @@ resource "aws_security_group" "example" {
 
 # DocumentDBクラスターを定義
 resource "aws_docdb_cluster" "example" {
-  cluster_identifier   = "${replace(var.project_name, "_", "-")}-docdb"
-  engine               = "docdb"
-  master_username      = var.username
-  master_password      = var.password
+  cluster_identifier      = "${replace(var.project_name, "_", "-")}-docdb"
+  engine                  = "docdb"
+  master_username         = var.username
+  master_password         = var.password
   preferred_backup_window = "07:00-09:00"
-  skip_final_snapshot = true
-  vpc_security_group_ids = [aws_security_group.example.id]
-  db_subnet_group_name = aws_docdb_subnet_group.example.name # 作成したDBサブネットグループの名前を指定
+  skip_final_snapshot     = true
+  vpc_security_group_ids  = [aws_security_group.example.id]
+  db_subnet_group_name    = aws_docdb_subnet_group.example.name # 作成したDBサブネットグループの名前を指定
+}
+
+# DocumentDBクラスターインスタンスを定義
+resource "aws_docdb_cluster_instance" "example" {
+  identifier         = "${replace(var.project_name, "_", "-")}-docdb-instance"
+  cluster_identifier = aws_docdb_cluster.example.id
+  instance_class     = "db.t3.medium"
+  count              = 1
 }
 
 resource "local_file" "connection_string" {
