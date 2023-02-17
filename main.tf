@@ -113,7 +113,7 @@ resource "aws_security_group" "example" {
     from_port   = 27017
     to_port     = 27017
     protocol    = "tcp"
-    cidr_blocks = [aws_subnet.example1.cidr_block, "${var.allowed_ip_address}/32"] # `IPAddr/32`でそのIPアドレスのみを許可
+    cidr_blocks = [aws_subnet.example.cidr_block, "${var.allowed_ip_address}/32"] # `IPAddr/32`でそのIPアドレスのみを許可
   }
   egress {
     from_port   = 0
