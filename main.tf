@@ -68,3 +68,8 @@ resource "aws_docdb_cluster" "example" {
   vpc_security_group_ids = [aws_security_group.example.id]
   db_subnet_group_name = aws_docdb_subnet_group.example.name # 作成したDBサブネットグループの名前を指定
 }
+
+resource "local_file" "connection_string" {
+  content  = "mongodb://${var.username}:${var.password}@${aws_docdb_cluster.example.endpoint}:27017/?ssl=true"
+  filename = "${path.module}/connection_string.txt"
+}
