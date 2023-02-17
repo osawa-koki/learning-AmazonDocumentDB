@@ -1,5 +1,9 @@
 {
   "recommendations": [
+    "davidanson.vscode-markdownlint",
+    "github.copilot",
+    "mhutchie.git-graph",
+    "editorconfig.editorconfig",
     "4ops.terraform",
     "hashicorp.terraform",
     "amazonwebservices.aws-toolkit-vscode"
