@@ -29,3 +29,7 @@ Amazon DocumentDB(MongoDB)のGUIクライアントツールは[こちら](https:
 
 Amazon DocumentDBのインスタンスはパブリックアクセスができない。  
 ※[公式サイト](https://aws.amazon.com/jp/premiumsupport/knowledge-center/documentdb-cannot-connect/)より。  
+
+### MongoDB接続トラブル
+
+[公式QA](https://docs.aws.amazon.com/ja_jp/documentdb/latest/developerguide/troubleshooting.connecting.html)を参考にする。  
