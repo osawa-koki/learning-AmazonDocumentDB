@@ -62,7 +62,6 @@ resource "aws_route_table_association" "example" {
   route_table_id = aws_route_table.example.id
 }
 
-
 # サブネット1を定義
 resource "aws_subnet" "example1" {
   vpc_id     = aws_vpc.example.id
