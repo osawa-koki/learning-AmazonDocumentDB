@@ -23,3 +23,4 @@ terraform apply
 ### データベースクライアント
 
 Amazon DocumentDB(MongoDB)のGUIクライアントツールは[こちら](https://downloads.mongodb.com/compass/mongodb-compass-1.35.0-win32-x64.exe)からダウンロード可能。  
+※ ダウンロードページは[こちら](https://www.mongodb.com/try/download/compass)から。  
