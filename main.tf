@@ -25,7 +25,7 @@ resource "aws_vpc" "example" {
 }
 
 # サブネット1を定義
-resource "aws_subnet" "example" {
+resource "aws_subnet" "example1" {
   vpc_id     = aws_vpc.example.id
   cidr_block = "10.0.1.0/24"
   availability_zone = "ap-northeast-1a"
@@ -41,7 +41,7 @@ resource "aws_subnet" "example2" {
 # DocumentDBサブネットグループを定義
 resource "aws_docdb_subnet_group" "example" {
   name       = "example"
-  subnet_ids = [aws_subnet.example.id, aws_subnet.example2.id] # 2つ以上の異なるAZにあるサブネットIDを指定する
+  subnet_ids = [aws_subnet.example1.id, aws_subnet.example2.id] # 2つ以上の異なるAZにあるサブネットIDを指定する
 }
 
 # セキュリティグループを定義
