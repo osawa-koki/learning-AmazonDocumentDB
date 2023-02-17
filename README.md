@@ -22,4 +22,4 @@ terraform apply
 
 ### データベースクライアント
 
-DynamoDB用のNoSQL Workbenchは[こちら](https://docs.aws.amazon.com/ja_jp/amazondynamodb/latest/developerguide/workbench.html)からダウンロード可能。  
+Amazon DocumentDB(MongoDB)のGUIクライアントツールは[こちら](https://downloads.mongodb.com/compass/mongodb-compass-1.35.0-win32-x64.exe)からダウンロード可能。  
