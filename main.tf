@@ -1,4 +1,10 @@
 
+variable "project_name" {
+  type = string
+  description = "プロジェクト名"
+  default = "learning_amazon_document_db"
+}
+
 variable "allowed_ip_address" {
   type = string
   description = "インターネットからのアクセスを許可するIPアドレス"
