@@ -31,6 +31,11 @@ provider "aws" {
   region = "ap-northeast-1"
 }
 
+# インターネットゲートウェイを定義
+resource "aws_internet_gateway" "example" {
+  vpc_id = aws_vpc.example.id
+}
+
 # VPCを定義
 resource "aws_vpc" "example" {
   cidr_block = "10.0.0.0/16"
@@ -42,10 +47,21 @@ resource "aws_subnet" "example" {
   cidr_block = "10.0.0.0/24"
 }
 
-# インターネットゲートウェイを定義
-resource "aws_internet_gateway" "example" {
+# ルーティングテーブルを定義
+resource "aws_route_table" "example" {
   vpc_id = aws_vpc.example.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.example.id
+  }
 }
+
+# ルーティングテーブルとサブネットを関連付ける
+resource "aws_route_table_association" "example" {
+  subnet_id      = aws_subnet.example.id
+  route_table_id = aws_route_table.example.id
+}
+
 
 # サブネット1を定義
 resource "aws_subnet" "example1" {
