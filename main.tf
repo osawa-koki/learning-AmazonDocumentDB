@@ -2,7 +2,7 @@
 variable "project_name" {
   type = string
   description = "プロジェクト名"
-  default = "learning_amazon_document_db"
+  default = "learning-amazon-document-db"
 }
 
 variable "allowed_ip_address" {
@@ -128,7 +128,7 @@ resource "aws_security_group" "example" {
 
 # DocumentDBクラスターを定義
 resource "aws_docdb_cluster" "example" {
-  cluster_identifier      = "${replace(var.project_name, "_", "-")}-docdb-cluster"
+  cluster_identifier      = "${var.project_name}-docdb-cluster"
   engine                  = "docdb"
   master_username         = var.username
   master_password         = var.password
