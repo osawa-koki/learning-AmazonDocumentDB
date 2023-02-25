@@ -49,7 +49,9 @@ ssh IPアドレス(ホスト名) -i プライベートキーファイル -l ユ�
 MongoDBのクライアントツールをインストールする。  
 
 ```shell
-sudo apt install mongodb-clients -y
+wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -sc)/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+sudo apt update && sudo apt install mongodb-org-shell
 ```
 
 ### 証明書のダウンロード
@@ -63,6 +65,8 @@ wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 ### 接続
 
 Amazon DocumentDBに接続する。  
+具体的なコマンドはDocumentDBのコンソール画面から確認できます。  
+※プライマリインスタンスの詳細画面です。  
 
 ```shell
 mongo --host エンドポイント --port ポート番号 --ssl --sslCAFile 証明書ファイル --username ユーザ名 --password パスワード [--authenticationMechanism=MONGODB-AWS]
