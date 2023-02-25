@@ -181,7 +181,7 @@ resource "aws_instance" "example" {
       "sudo apt update",
       "wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -",
       "echo \"deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -sc)/mongodb-org/4.4 multiverse\" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list",
-      "sudo apt update && sudo apt install mongodb-org-shell -y",
+      "sudo apt update -y && sudo apt install mongodb-org-shell -y",
       "wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem",
     ]
   }
