@@ -165,6 +165,14 @@ resource "aws_instance" "example" {
   vpc_security_group_ids = [aws_security_group.example.id]
   subnet_id = aws_subnet.example.id
   associate_public_ip_address = true
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt update",
+      "wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -",
+      "echo \"deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -sc)/mongodb-org/4.4 multiverse\" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list",
+      "sudo apt update && sudo apt install mongodb-org-shell"
+    ]
+  }
   tags = {
     Name = "${var.project_name}-ec2"
   }
