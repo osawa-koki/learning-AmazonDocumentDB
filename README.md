@@ -2,7 +2,7 @@
 
 👓👓👓 Amazon DocumentDBを学ぶためのリポジトリ。  
 
-![成果物](./docs/img/fruit.png)  
+![成果物](./docs/img/fruit.gif)  
 
 ## 環境情報
 
