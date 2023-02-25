@@ -2,6 +2,8 @@
 
 👓👓👓 Amazon DocumentDBを学ぶためのリポジトリ。  
 
+![成果物](./docs/img/fruit.png)  
+
 ## 環境情報
 
 | Name | Version |
@@ -15,6 +17,7 @@ Terraformを使用してAWS上にリソースを構築する。
 
 ```shell
 terraform init
+terraform plan
 terraform apply
 ```
 
@@ -46,6 +49,7 @@ ssh IPアドレス(ホスト名) -i プライベートキーファイル -l ユ�
 
 ### MongoDBクライアントツールのインストール
 
+TerraformでEC2インスタンスを作成する際に、自動で実行されます。  
 MongoDBのクライアントツールをインストールする。  
 
 ```shell
