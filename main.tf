@@ -10,12 +10,12 @@ variable "allowed_ip_address" {
   description = "インターネットからのアクセスを許可するIPアドレス"
 }
 
-variable "username" {
+variable "db_username" {
   type = string
   description = "データベースのユーザ名"
 }
 
-variable "password" {
+variable "db_password" {
   type = string
   description = "データベースのパスワード"
 }
@@ -24,6 +24,16 @@ variable "ssh_public_key_path" {
   type = string
   default = "~/.ssh/id_rsa.pub"
   description = "Path to the public key."
+}
+variable "ssh_private_key_path" {
+  type = string
+  default = "~/.ssh/id_rsa"
+  description = "Path to the private key."
+}
+
+variable "vm_username" {
+  type = string
+  description = "仮想マシンのユーザ名"
 }
 
 # プロバイダーを設定
@@ -130,8 +140,8 @@ resource "aws_security_group" "example" {
 resource "aws_docdb_cluster" "example" {
   cluster_identifier      = "${var.project_name}-docdb-cluster"
   engine                  = "docdb"
-  master_username         = var.username
-  master_password         = var.password
+  master_username         = var.db_username
+  master_password         = var.db_password
   preferred_backup_window = "07:00-09:00"
   skip_final_snapshot     = true
   vpc_security_group_ids  = [aws_security_group.example.id]
@@ -140,7 +150,7 @@ resource "aws_docdb_cluster" "example" {
 
 # DocumentDBクラスターインスタンスを定義
 resource "aws_docdb_cluster_instance" "example" {
-  identifier         = "${replace(var.project_name, "_", "-")}-docdb-instance"
+  identifier         = "${var.project_name}-docdb-instance"
   cluster_identifier = aws_docdb_cluster.example.id
   instance_class     = "db.t3.medium"
   count              = 1
@@ -152,11 +162,6 @@ resource "aws_key_pair" "example" {
   public_key = file(var.ssh_public_key_path)
 }
 
-# Elastic IPを定義
-resource "aws_eip" "example" {
-  vpc = true
-}
-
 # EC2インスタンスを定義
 resource "aws_instance" "example" {
   ami = "ami-be4a24d9"
@@ -165,12 +170,19 @@ resource "aws_instance" "example" {
   vpc_security_group_ids = [aws_security_group.example.id]
   subnet_id = aws_subnet.example.id
   associate_public_ip_address = true
+  connection {
+    type        = "ssh"
+    host        = aws_instance.example.public_ip
+    private_key = file(var.ssh_private_key_path)
+    user        = "ubuntu"
+  }
   provisioner "remote-exec" {
     inline = [
       "sudo apt update",
       "wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -",
       "echo \"deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -sc)/mongodb-org/4.4 multiverse\" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list",
-      "sudo apt update && sudo apt install mongodb-org-shell"
+      "sudo apt update && sudo apt install mongodb-org-shell -y",
+      "wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem",
     ]
   }
   tags = {
@@ -178,7 +190,6 @@ resource "aws_instance" "example" {
   }
 }
 
-resource "local_file" "connection_string" {
-  content  = "mongodb://${var.username}:${var.password}@${aws_docdb_cluster.example.endpoint}:27017/?ssl=true"
-  filename = "${path.module}/connection_string.secret"
+output "ec2_public_ip" {
+  value = aws_instance.example.public_ip
 }
