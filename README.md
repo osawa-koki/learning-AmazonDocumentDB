@@ -13,7 +13,7 @@
 
 ## 環境構築
 
-Terraformを使用してAWS上にリソースを構築する。  
+Terraformを使用してAWS上にリソースを構築します。  
 
 ```shell
 terraform init
@@ -23,11 +23,11 @@ terraform apply
 
 ## 実行方法
 
-Amazon DocumentDBはMongoDBの互換性があるため、MongoDBのクライアントツールを使用して接続する。  
-また、パブリックアクセスができないため、VPC内から接続する必要がある。  
-したがって、同一のVPC内に構築したEC2インスタンスから接続する。  
+Amazon DocumentDBはMongoDBの互換性があるため、MongoDBのクライアントツールを使用して接続します。  
+また、パブリックアクセスができないため、VPC内から接続する必要があります。  
+したがって、同一のVPC内に構築したEC2インスタンスから接続します。  
 
-Terraformを実行すると、以下のリソースが作成される。  
+Terraformを実行すると、以下のリソースが作成されます。  
 
 | Name | Description |
 | --- | --- |
@@ -37,11 +37,11 @@ Terraformを実行すると、以下のリソースが作成される。
 | EC2 | Amazon DocumentDBに接続するためのEC2インスタンス |
 | DocumentDB | Amazon DocumentDB |
 
-このEC2インスタンスからAmazon DocumentDBに接続する。  
+このEC2インスタンスからAmazon DocumentDBに接続します。  
 
 ### EC2インスタンスへの接続
 
-EC2インスタンスに接続する。  
+EC2インスタンスに接続します。  
 
 ```shell
 ssh IPアドレス(ホスト名) -i プライベートキーファイル -l ユーザー名 -p ポート番号(22)
@@ -50,7 +50,7 @@ ssh IPアドレス(ホスト名) -i プライベートキーファイル -l ユ�
 ### MongoDBクライアントツールのインストール
 
 TerraformでEC2インスタンスを作成する際に、自動で実行されます。  
-MongoDBのクライアントツールをインストールする。  
+MongoDBのクライアントツールをインストールします。  
 
 ```shell
 wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
@@ -60,7 +60,7 @@ sudo apt update && sudo apt install mongodb-org-shell
 
 ### 証明書のダウンロード
 
-Amazon DocumentDBの証明書をダウンロードする。  
+Amazon DocumentDBの証明書をダウンロードします。  
 
 ```shell
 wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
@@ -68,7 +68,7 @@ wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
 
 ### 接続
 
-Amazon DocumentDBに接続する。  
+Amazon DocumentDBに接続します。  
 具体的なコマンドはDocumentDBのコンソール画面から確認できます。  
 ※プライマリインスタンスの詳細画面です。  
 
@@ -76,7 +76,7 @@ Amazon DocumentDBに接続する。
 mongo --host エンドポイント --port ポート番号 --ssl --sslCAFile 証明書ファイル --username ユーザ名 --password パスワード [--authenticationMechanism=MONGODB-AWS]
 ```
 
-## イロイロ情報共有
+## 自分用情報
 
 ### パブリックアクセス不可
 
